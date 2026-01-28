@@ -9,7 +9,8 @@ export function useActivitySuggestion() {
     const getRandomActivity = useCallback((
         mood: Mood,
         mode: 'mind' | 'move',
-        minutes: number
+        minutes: number,
+        excludeId?: string
     ): Activity | null => {
 
         // Filter by Mode
@@ -31,15 +32,22 @@ export function useActivitySuggestion() {
 
         let pool = exactMatches;
 
-        // If no exact matches, look for shorter ones only if needed, 
-        // BUT since we added 60m activities, we should find matches.
-        // If user picks 30m, and we only have 5m tasks, that's okay, but better to match relative size.
+        // If no exact matches, look for shorter ones only if needed
         if (pool.length === 0) {
-            // Fallback: Anything that fits within the time frame
             pool = valid.filter(a => a.minutes.some(m => m <= minutes));
         }
 
-        // Filter out recently completed (last 5)
+        // EXCLUSION LOGIC:
+        // 1. Exclude the activity user is currently viewing (excludeId) so "Retry" actually changes it.
+        if (excludeId) {
+            const poolWithoutCurrent = pool.filter(a => a.id !== excludeId);
+            if (poolWithoutCurrent.length > 0) {
+                pool = poolWithoutCurrent;
+            }
+            // If the ONLY option was the current one, we keep the pool as is (better to show same than nothing)
+        }
+
+        // 2. Filter out recently completed (last 5)
         const nonRepeated = pool.filter(a => !completedIds.includes(a.id));
 
         // If we filtered out everything due to history, reset to pool

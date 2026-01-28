@@ -33,15 +33,32 @@ function App() {
     setStep('options');
   };
 
+  const [rerollsLeft, setRerollsLeft] = useState(2);
+
   const handleGetActivity = () => {
     if (!mood) return;
-    const suggestion = getRandomActivity(mood, mode, minutes);
+
+    // Start new session: Reset rerolls
+    setRerollsLeft(2);
+
+    const suggestion = getRandomActivity(mood, mode, minutes); // No exclusion on first load
+
     if (suggestion) {
       setActivity(suggestion);
       setStep('result');
     } else {
-      // Fallback/Error state if no activity found (should differ to user)
       alert("No matching activities found for these filters. Try adjusting the time!");
+    }
+  };
+
+  const handleReroll = () => {
+    if (!mood || rerollsLeft <= 0) return;
+
+    const suggestion = getRandomActivity(mood, mode, minutes, activity?.id);
+
+    if (suggestion) {
+      setActivity(suggestion);
+      setRerollsLeft(prev => prev - 1);
     }
   };
 
@@ -243,6 +260,8 @@ function App() {
           <ActivityCard
             activity={activity}
             onComplete={handleComplete}
+            onReroll={handleReroll}
+            rerollsLeft={rerollsLeft}
 
             userNote={undefined} // Note is never shared/saved now
             selectedTime={minutes}

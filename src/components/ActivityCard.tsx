@@ -3,18 +3,19 @@ import { toPng } from 'html-to-image';
 import type { Activity } from '../types';
 import { Button } from './ui/Button';
 import { Card } from './ui/Card';
-import { Share2, Check, Loader2 } from 'lucide-react';
+import { Share2, Check, Loader2, RefreshCcw } from 'lucide-react';
 import { cn } from '../lib/utils'; // Keep this import, it is used below!
 
 interface ActivityCardProps {
     activity: Activity;
     onComplete: () => void;
-
+    onReroll: () => void;
+    rerollsLeft: number;
     userNote?: string; // Optional thinking note
     selectedTime?: number; // The specific time user chose
 }
 
-export function ActivityCard({ activity, onComplete, userNote: _userNote, selectedTime }: ActivityCardProps) {
+export function ActivityCard({ activity, onComplete, onReroll, rerollsLeft, userNote: _userNote, selectedTime }: ActivityCardProps) {
     const cardRef = useRef<HTMLDivElement>(null);
     const [isSharing, setIsSharing] = useState(false);
     // const [includeNote, setIncludeNote] = useState(false); // Reserved for future iteration
@@ -64,6 +65,21 @@ export function ActivityCard({ activity, onComplete, userNote: _userNote, select
                     activity.mode === 'mind' ? 'bg-blue-500' : 'bg-green-500'
                 )} />
 
+                {/* Top-right Retry Button (Icon) */}
+                <button
+                    onClick={onReroll}
+                    disabled={rerollsLeft === 0}
+                    className={cn(
+                        "absolute top-4 right-4 p-2 transition-colors z-20 rounded-full",
+                        rerollsLeft > 0
+                            ? "text-gray-300 hover:text-gray-500 hover:bg-gray-50 cursor-pointer"
+                            : "text-gray-200 cursor-not-allowed opacity-50"
+                    )}
+                    title={rerollsLeft > 0 ? "Try another" : "No more swaps"}
+                >
+                    <RefreshCcw className="w-4 h-4" />
+                </button>
+
                 <div className="z-10 flex flex-col items-center gap-2">
                     <span className={cn("text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full",
                         activity.mode === 'mind' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'
@@ -97,6 +113,20 @@ export function ActivityCard({ activity, onComplete, userNote: _userNote, select
                     {isSharing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Share2 className="w-4 h-4" />}
                     Do with a friend?
                 </Button>
+            </div>
+
+            {/* Reroll Button (matches Share button style) */}
+            <div className="w-full flex justify-center">
+                {rerollsLeft > 0 ? (
+                    <Button variant="outline" onClick={onReroll} className="flex gap-2 w-full justify-center">
+                        <RefreshCcw className="w-4 h-4" />
+                        Try another ({rerollsLeft} left)
+                    </Button>
+                ) : (
+                    <span className="text-sm text-gray-400 cursor-default italic">
+                        Take a deep breath. How about this one?
+                    </span>
+                )}
             </div>
 
             <Button size="lg" onClick={onComplete} className="w-full flex gap-2 text-lg shadow-md animate-slide-up">

@@ -98,6 +98,22 @@ export const ACTIVITIES: Activity[] = [
         minutes: [60],
         moods: ['bored', 'calm', 'happy']
     },
+    {
+        id: 'mind-podcast',
+        title: 'Podcast Walk (Mental)',
+        prompt: 'Listen to a chaotic or educational podcast episode (~45m) while sitting or walking.',
+        mode: 'mind',
+        minutes: [30, 60],
+        moods: ['bored', 'anxious']
+    },
+    {
+        id: 'mind-learning',
+        title: 'Learn Basics',
+        prompt: 'Spend 30 minutes learning the basics of a new language or skill online.',
+        mode: 'mind',
+        minutes: [30, 60],
+        moods: ['bored', 'happy']
+    },
 
     // MOVE Activities
     {
@@ -195,5 +211,21 @@ export const ACTIVITIES: Activity[] = [
         mode: 'move',
         minutes: [60],
         moods: ['bored', 'happy']
+    },
+    {
+        id: 'move-bike',
+        title: 'Bike Ride',
+        prompt: 'Take your bike for a spin around the neighborhood or park.',
+        mode: 'move',
+        minutes: [30, 60],
+        moods: ['bored', 'happy', 'anxious']
+    },
+    {
+        id: 'move-yoga',
+        title: 'Yoga Flow',
+        prompt: 'Do a full 30-minute yoga flow (follow a video if needed).',
+        mode: 'move',
+        minutes: [30, 60],
+        moods: ['anxious', 'bored', 'calm']
     }
 ];
