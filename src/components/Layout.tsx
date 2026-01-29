@@ -9,7 +9,12 @@ interface LayoutProps {
 
 export function Layout({ children, className, showHeader = true }: LayoutProps) {
     return (
-        <div className="min-h-screen flex flex-col items-center justify-start p-4 md:p-8 font-sans">
+        <div className="min-h-screen flex flex-col items-center justify-start p-4 md:p-8 font-sans" style={{
+            paddingTop: `max(1rem, var(--safe-area-inset-top))`,
+            paddingBottom: `max(1rem, var(--safe-area-inset-bottom))`,
+            paddingLeft: `max(1rem, var(--safe-area-inset-left))`,
+            paddingRight: `max(1rem, var(--safe-area-inset-right))`
+        }}>
             <div className={cn("w-full max-w-md flex flex-col gap-6", className)}>
                 {showHeader && (
                     <header className="py-4 flex justify-center">
