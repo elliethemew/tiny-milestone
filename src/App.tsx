@@ -10,6 +10,7 @@ import type { Mood, Activity } from './types';
 import { triggerConfetti } from './lib/confetti';
 import { ArrowLeft, Clock, Brain, Activity as ActivityIcon, MessageSquare, Settings, Trash2, X, Check } from 'lucide-react';
 import { cn } from './lib/utils';
+import { MODE_STYLES } from './lib/theme';
 
 type Step = 'mood' | 'options' | 'result' | 'completion';
 
@@ -210,19 +211,17 @@ function App() {
                     "p-5 rounded-[24px] border text-left transition-all flex items-center gap-4 relative group",
                     // Micro-interactions
                     "hover:-translate-y-1 hover:shadow-md active:scale-[0.98]",
-                    mode === 'mind'
-                      ? "border-blue-400 bg-white shadow-md ring-4 ring-blue-100" // Selected: Blue theme
-                      : "border-border bg-white hover:border-blue-300 hover:bg-blue-50" // Default: Hover Blue tint
+                    mode === 'mind' ? MODE_STYLES.mind.selected : MODE_STYLES.mind.base
                   )}
                 >
                   {mode === 'mind' && (
-                    <div className="absolute top-4 right-4 w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center text-white animate-fade-in shadow-sm">
+                    <div className={cn("absolute top-4 right-4 w-5 h-5 rounded-full flex items-center justify-center text-white animate-fade-in shadow-sm", MODE_STYLES.mind.badgeColor)}>
                       <Check className="w-3 h-3" strokeWidth={3} />
                     </div>
                   )}
                   <div className={cn(
                     "p-3 rounded-full transition-colors duration-300",
-                    mode === 'mind' ? "bg-blue-100 text-blue-600" : "bg-slate-100 text-slate-400 group-hover:bg-blue-100 group-hover:text-blue-500"
+                    mode === 'mind' ? MODE_STYLES.mind.icon.selected : MODE_STYLES.mind.icon.base
                   )}>
                     <Brain className="w-6 h-6" strokeWidth={2} />
                   </div>
@@ -238,19 +237,17 @@ function App() {
                     "p-5 rounded-[24px] border text-left transition-all flex items-center gap-4 relative group",
                     // Micro-interactions
                     "hover:-translate-y-1 hover:shadow-md active:scale-[0.98]",
-                    mode === 'move'
-                      ? "border-emerald-400 bg-white shadow-md ring-4 ring-emerald-100" // Selected: Green theme
-                      : "border-border bg-white hover:border-emerald-300 hover:bg-emerald-50" // Default: Hover Green tint
+                    mode === 'move' ? MODE_STYLES.move.selected : MODE_STYLES.move.base
                   )}
                 >
                   {mode === 'move' && (
-                    <div className="absolute top-4 right-4 w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center text-white animate-fade-in shadow-sm">
+                    <div className={cn("absolute top-4 right-4 w-5 h-5 rounded-full flex items-center justify-center text-white animate-fade-in shadow-sm", MODE_STYLES.move.badgeColor)}>
                       <Check className="w-3 h-3" strokeWidth={3} />
                     </div>
                   )}
                   <div className={cn(
                     "p-3 rounded-full transition-colors duration-300",
-                    mode === 'move' ? "bg-emerald-100 text-emerald-600" : "bg-slate-100 text-slate-400 group-hover:bg-emerald-100 group-hover:text-emerald-500"
+                    mode === 'move' ? MODE_STYLES.move.icon.selected : MODE_STYLES.move.icon.base
                   )}>
                     <ActivityIcon className="w-6 h-6" strokeWidth={2} />
                   </div>

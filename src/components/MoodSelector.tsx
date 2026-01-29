@@ -2,6 +2,7 @@ import React from 'react';
 import type { Mood } from '../types';
 import { Smile, Zap, Cloud, Coffee, Sparkles, Check, Meh } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { MOOD_STYLES } from '../lib/theme';
 
 interface MoodSelectorProps {
     onSelect: (mood: Mood) => void;
@@ -17,63 +18,12 @@ const moods: { id: Mood; label: string; icon: React.ElementType }[] = [
     { id: 'surprise', label: 'Surprise Me', icon: Sparkles },
 ];
 
-const moodStyles = {
-    happy: {
-        border: 'border-yellow-400',
-        ring: 'ring-yellow-200',
-        text: 'text-yellow-700',
-        bg: 'bg-yellow-50',
-        hoverBorder: 'hover:border-yellow-400',
-        hoverBg: 'hover:bg-yellow-50',
-    },
-    sad: {
-        border: 'border-blue-400',
-        ring: 'ring-blue-200',
-        text: 'text-blue-700',
-        bg: 'bg-blue-50',
-        hoverBorder: 'hover:border-blue-400',
-        hoverBg: 'hover:bg-blue-50',
-    },
-    anxious: {
-        border: 'border-amber-400',
-        ring: 'ring-amber-200',
-        text: 'text-amber-700',
-        bg: 'bg-amber-50',
-        hoverBorder: 'hover:border-amber-400',
-        hoverBg: 'hover:bg-amber-50',
-    },
-    calm: {
-        border: 'border-emerald-400',
-        ring: 'ring-emerald-200',
-        text: 'text-emerald-700',
-        bg: 'bg-emerald-50',
-        hoverBorder: 'hover:border-emerald-400',
-        hoverBg: 'hover:bg-emerald-50',
-    },
-    bored: {
-        border: 'border-gray-400',
-        ring: 'ring-gray-200',
-        text: 'text-gray-700',
-        bg: 'bg-gray-50',
-        hoverBorder: 'hover:border-gray-400',
-        hoverBg: 'hover:bg-gray-50',
-    },
-    surprise: {
-        border: 'border-indigo-400',
-        ring: 'ring-indigo-200',
-        text: 'text-indigo-700',
-        bg: 'bg-indigo-50',
-        hoverBorder: 'hover:border-indigo-400',
-        hoverBg: 'hover:bg-indigo-50',
-    },
-};
-
 export function MoodSelector({ onSelect, selectedMood }: MoodSelectorProps) {
     return (
         <div className="grid grid-cols-2 gap-4">
             {moods.map((m) => {
                 const isSelected = selectedMood === m.id;
-                const style = moodStyles[m.id];
+                const style = MOOD_STYLES[m.id];
 
                 return (
                     <button
