@@ -69,8 +69,11 @@ export function ActivityCard({ activity, onComplete, onReroll, rerollsLeft, user
                 cardElement.classList.add('overflow-visible');
             }
 
-            // Wait for the DOM to update (especially important on mobile)
-            await new Promise(resolve => setTimeout(resolve, 300));
+            // Force a reflow to ensure the DOM has updated
+            void cardElement.offsetHeight;
+
+            // Wait longer for the DOM to update and fonts/images to render (especially important on mobile)
+            await new Promise(resolve => setTimeout(resolve, 500));
 
             const dataUrl = await toPng(cardRef.current, {
                 cacheBust: true,
