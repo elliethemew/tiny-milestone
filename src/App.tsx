@@ -286,7 +286,10 @@ function App() {
         </div>
       )}
 
-      <div className="fixed bottom-5 left-5 z-50 pointer-events-none animate-fade-in">
+      <div className="fixed z-50 pointer-events-none animate-fade-in" style={{
+        bottom: `max(1.25rem, calc(var(--safe-area-inset-bottom) + 0.5rem))`,
+        left: `max(1.25rem, calc(var(--safe-area-inset-left) + 0.5rem))`
+      }}>
         <div className="px-3 py-1.5 rounded-full bg-white/70 border border-slate-50 shadow-[0_1px_3px_rgba(0,0,0,0.04)] backdrop-blur-[2px] text-slate-500/75 font-serif font-medium text-[13px]">
           Lo’s Workspace
         </div>
@@ -304,7 +307,7 @@ function App() {
             </div>
 
             <div className="space-y-3">
-              <h2 className="text-2xl font-semibold text-primary-DEFAULT tracking-wide">Well done!</h2>
+              <h2 className="text-xl sm:text-2xl font-semibold text-primary-DEFAULT tracking-wide">Well done!</h2>
               <p className="text-secondary/80 text-base leading-relaxed font-normal">You took a moment for yourself.</p>
             </div>
           </div>
