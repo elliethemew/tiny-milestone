@@ -64,13 +64,17 @@ export function ActivityCard({ activity, onComplete, onReroll, rerollsLeft, user
             const originalOverflow = cardRef.current.style.overflow;
             cardRef.current.style.overflow = 'visible';
 
-            // Wait a tick for the DOM to update
-            await new Promise(resolve => setTimeout(resolve, 100));
+            // Wait longer for the DOM to update (especially important on mobile)
+            await new Promise(resolve => setTimeout(resolve, 300));
 
             const dataUrl = await toPng(cardRef.current, {
                 cacheBust: true,
                 backgroundColor: '#ffffff',
-                pixelRatio: 2
+                pixelRatio: 2,
+                filter: (node) => {
+                    // Exclude the floating retry button from capture
+                    return !node.classList?.contains('group-hover/card:opacity-100');
+                }
             });
 
             // Restore original overflow
