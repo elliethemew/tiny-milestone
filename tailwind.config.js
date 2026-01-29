@@ -8,6 +8,7 @@ export default {
         extend: {
             fontFamily: {
                 sans: ['Inter', 'sans-serif'],
+                serif: ['Fraunces', 'serif'],
             },
             colors: {
                 background: '#F7FAFA', // Soft off-white

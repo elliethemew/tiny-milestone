@@ -30,39 +30,57 @@ export function MoodSelector({ onSelect, selectedMood }: MoodSelectorProps) {
                         key={m.id}
                         onClick={() => onSelect(m.id)}
                         className={cn(
-                            "relative p-6 rounded-[24px] border transition-all duration-200 flex flex-col items-center gap-4 group focus:outline-none focus:ring-4 focus:ring-opacity-50", // Increased padding to p-6, gap-4
+                            "relative p-6 rounded-[24px] border transition-all duration-300 flex flex-col items-center gap-4 group outline-none",
+                            "bg-white", // Solid white base
 
-                            // Micro-interactions
-                            "hover:-translate-y-1 hover:shadow-md active:scale-[0.98]",
+                            // Base Border: Light Slate (10%)
+                            "border-slate-900/10",
 
-                            // Focus State (Accessibility)
-                            isSelected ? style.ring : "focus:ring-primary-accent/20",
+                            // Shadows
+                            "shadow-[var(--shadow-premium)]",
 
-                            // Selection & Hover State
+                            // Interactions (Lift + Deepen Shadow)
+                            "hover:-translate-y-[1px] hover:shadow-[var(--shadow-premium-hover)]",
+                            "active:scale-[0.99] active:shadow-sm",
+
+                            // Focus State
+                            "focus-visible:ring-2 focus-visible:ring-primary-accent focus-visible:ring-offset-2",
+
+                            // Interactions
+                            "hover:border-slate-900/15",
+
+                            // RING GLOW
                             isSelected
-                                ? cn("border-2 bg-white shadow-md", style.border) // Mood-specific border
-                                : cn("border-border bg-surface shadow-sm", style.hoverBorder, style.hoverBg) // Default: Soft border + Mood Hover Effect
+                                ? cn("ring-2 ring-offset-0", style.ring)
+                                : cn("hover:ring-2 hover:ring-offset-0", style.hoverRing)
                         )}
                     >
-                        {/* Checkmark Badge (Teal or Mood Color? User said check can stay teal or match mood. Let's match mood for fun, or teal for consistency? User said 'check badge can stay teal'. Sticking to teal for CTA consistency) */}
+                        {/* 🎨 TINT LAYER (Absolute Overlay) */}
+                        <div className={cn(
+                            "absolute inset-0 rounded-[24px] transition-opacity duration-300 pointer-events-none",
+                            style.tint,
+                            isSelected ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                        )} />
+
+                        {/* Checkmark Badge */}
                         {isSelected && (
-                            <div className="absolute top-3 right-3 w-6 h-6 bg-primary-accent rounded-full flex items-center justify-center text-white animate-fade-in shadow-sm">
+                            <div className="absolute top-3 right-3 w-6 h-6 bg-primary-accent rounded-full flex items-center justify-center text-white animate-fade-in shadow-sm z-10">
                                 <Check className="w-3.5 h-3.5" strokeWidth={3} />
                             </div>
                         )}
 
-                        {/* Icon Container - Consistent Circles */}
+                        {/* Icon Container */}
                         <div className={cn(
-                            "p-4 rounded-full transition-colors duration-300", // rounded-full for circles
+                            "p-4 rounded-full transition-colors duration-300 z-10 relative",
                             style.bg,
                             style.text
                         )}>
-                            <m.icon className="w-7 h-7" strokeWidth={2} /> {/* Slightly larger icons */}
+                            <m.icon className="w-7 h-7" strokeWidth={2} />
                         </div>
 
                         <span className={cn(
-                            "font-semibold text-sm tracking-wide",
-                            isSelected ? "text-primary-DEFAULT" : "text-secondary-DEFAULT"
+                            "font-medium text-[15px] tracking-wide z-10 relative",
+                            isSelected ? "text-primary-DEFAULT font-semibold" : "text-secondary-DEFAULT"
                         )}>
                             {m.label}
                         </span>

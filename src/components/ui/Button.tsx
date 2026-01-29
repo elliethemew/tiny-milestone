@@ -10,6 +10,7 @@ const buttonVariants = cva(
             variant: {
                 default: "bg-primary-accent text-white hover:bg-primary-hover shadow-sm",
                 secondary: "bg-white text-primary border border-gray-200 hover:bg-gray-50 shadow-sm",
+                soft: "bg-white/90 text-primary-DEFAULT border border-slate-900/10 shadow-sm hover:bg-white hover:shadow-md hover:ring-2 hover:ring-primary-accent/10 transition-all duration-300",
                 ghost: "hover:bg-gray-100 text-primary-DEFAULT",
                 outline: "border border-input hover:bg-accent hover:text-accent-foreground",
             },

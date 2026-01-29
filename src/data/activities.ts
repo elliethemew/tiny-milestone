@@ -24,7 +24,7 @@ export const ACTIVITIES: Activity[] = [
         prompt: 'Write down 3 tiny things that happened today that weren\'t terrible.',
         mode: 'mind',
         minutes: [5],
-        moods: ['sad', 'bored', 'anxious']
+        moods: ['sad', 'bored', 'anxious', 'happy', 'calm']
     },
     {
         id: 'mind-visualisation',
@@ -32,7 +32,7 @@ export const ACTIVITIES: Activity[] = [
         prompt: 'Close your eyes. Imagine your favorite place. Be there for 3 minutes.',
         mode: 'mind',
         minutes: [5],
-        moods: ['calm', 'anxious']
+        moods: ['calm', 'anxious', 'happy']
     },
     {
         id: 'mind-read',
@@ -223,7 +223,7 @@ export const ACTIVITIES: Activity[] = [
     {
         id: 'move-yoga',
         title: 'Yoga Flow',
-        prompt: 'Do a full 30-minute yoga flow (follow a video if needed).',
+        prompt: 'Do a full yoga flow to stretch your body (follow a video if needed).',
         mode: 'move',
         minutes: [30, 60],
         moods: ['anxious', 'bored', 'calm']

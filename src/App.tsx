@@ -7,8 +7,7 @@ import { Card } from './components/ui/Card';
 import { useActivitySuggestion } from './hooks/useActivitySuggestion';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import type { Mood, Activity } from './types';
-import { triggerConfetti } from './lib/confetti';
-import { ArrowLeft, Clock, Brain, Activity as ActivityIcon, MessageSquare, Settings, Trash2, X, Check } from 'lucide-react';
+import { ArrowLeft, Clock, Brain, Activity as ActivityIcon, Settings, Trash2, X, Check } from 'lucide-react';
 import { cn } from './lib/utils';
 import { MODE_STYLES } from './lib/theme';
 
@@ -64,7 +63,7 @@ function App() {
   };
 
   const handleComplete = () => {
-    triggerConfetti();
+    // triggerConfetti(); // Removed for calm/premium vibe
     if (activity) {
       markCompleted(activity.id);
 
@@ -137,10 +136,10 @@ function App() {
       )}
 
       {step === 'mood' && (
-        <div className="flex flex-col gap-6 animate-fade-in">
-          <div className="text-center space-y-2">
-            <h2 className="text-2xl font-bold text-gray-900">How are you feeling?</h2>
-            <p className="text-gray-500">Let's find a tiny step forward.</p>
+        <div className="flex flex-col gap-8 animate-fade-in pt-4">
+          <div className="text-center space-y-3">
+            <h2 className="text-3xl font-serif font-semibold text-primary-DEFAULT tracking-tight">How are you feeling?</h2>
+            <p className="text-base text-secondary font-normal tracking-wide">Let's find a tiny step forward.</p>
           </div>
           <MoodSelector onSelect={handleMoodSelect} selectedMood={mood} />
         </div>
@@ -150,36 +149,36 @@ function App() {
         <div className="flex flex-col gap-6 animate-slide-up">
           <button
             onClick={() => setStep('mood')}
-            className="self-start text-sm text-gray-500 hover:text-gray-900 flex items-center gap-1"
+            className="self-start text-sm text-gray-500 hover:text-gray-900 flex items-center gap-1 font-medium tracking-wide"
           >
             <ArrowLeft className="w-4 h-4" /> Back
           </button>
 
-          <div className="space-y-6">
+          <div className="space-y-8">
             <div className="space-y-3">
-              <label className="text-sm font-medium text-primary-DEFAULT flex items-center gap-2">
-                <MessageSquare className="w-4 h-4 text-primary-accent" /> What's on your mind? (Optional)
+              <label className="text-[15px] font-medium text-primary-DEFAULT flex items-center gap-2">
+                What's on your mind? <span className="text-[13px] text-slate-400 font-normal">(Optional)</span>
               </label>
-              <textarea
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
-                placeholder={
-                  mood === 'happy' ? "Share what's making you smile..." :
-                    mood === 'calm' ? "What's keeping you centered?" :
-                      mood === 'surprise' ? "You think you can surprise me?" :
-                        "I'm feeling a bit stuck because..."
-                }
-                className="w-full p-6 rounded-3xl bg-white border-none shadow-sm focus:ring-2 focus:ring-primary-accent/20 outline-none min-h-[120px] resize-none text-base placeholder:text-muted/60 transition-all font-sans"
-              />
-              <div className="flex items-start gap-2 px-1">
-                <p className="text-xs text-muted italic">
-                  Practice naming your feelings. Whatever you write here disappears when you start. It is not saved anywhere.
-                </p>
+              <div className="relative">
+                <textarea
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                  placeholder={
+                    mood === 'happy' ? "Share what's making you smile..." :
+                      mood === 'calm' ? "What's keeping you centered?" :
+                        mood === 'surprise' ? "You think you can surprise me?" :
+                          "I'm feeling a bit stuck because..."
+                  }
+                  className="w-full p-6 rounded-[24px] bg-white/95 border-none shadow-[inset_0_1px_4px_rgba(0,0,0,0.03)] focus:ring-2 focus:ring-primary-accent/10 outline-none min-h-[140px] resize-none text-base placeholder:text-slate-500 transition-all font-sans leading-relaxed"
+                />
               </div>
+              <p className="text-xs text-slate-400 mt-1 pl-1">
+                This note disappears when you start. Saved nowhere.
+              </p>
             </div>
 
             <div className="space-y-3">
-              <label className="text-sm font-medium text-primary-DEFAULT flex items-center gap-2">
+              <label className="text-[15px] font-medium text-primary-DEFAULT flex items-center gap-2">
                 <Clock className="w-4 h-4 text-primary-accent" /> How much time do you have?
               </label>
               <div className="grid grid-cols-4 gap-3">
@@ -188,10 +187,10 @@ function App() {
                     key={m}
                     onClick={() => setMinutes(m)}
                     className={cn(
-                      "py-3 px-2 rounded-2xl text-sm font-semibold transition-all border",
+                      "py-3 px-2 rounded-2xl text-[15px] font-medium transition-all duration-200 ease-[cubic-bezier(0.2,0.8,0.2,1)] relative group border will-change-transform active:scale-95",
                       minutes === m
-                        ? "border-primary-accent bg-background text-primary-accent shadow-sm ring-1 ring-primary-accent/10"
-                        : "border-border bg-white text-secondary hover:border-primary-accent/30 hover:bg-slate-50"
+                        ? "bg-teal-50 text-primary-DEFAULT border-primary-accent/5 ring-1 ring-primary-accent/30 shadow-none z-10" // Opaque bg-teal-50
+                        : "bg-white text-secondary border-slate-900/5 shadow-none hover:-translate-y-0.5 hover:shadow-sm hover:border-slate-900/10"
                     )}
                   >
                     {m}m
@@ -201,7 +200,7 @@ function App() {
             </div>
 
             <div className="space-y-3">
-              <label className="text-sm font-medium text-primary-DEFAULT flex items-center gap-2">
+              <label className="text-[15px] font-medium text-primary-DEFAULT flex items-center gap-2">
                 <Brain className="w-4 h-4 text-primary-accent" /> What kind of reset?
               </label>
               <div className="grid grid-cols-2 gap-4">
@@ -226,8 +225,8 @@ function App() {
                     <Brain className="w-6 h-6" strokeWidth={2} />
                   </div>
                   <div>
-                    <div className={cn("font-bold transition-colors", mode === 'mind' ? "text-primary-DEFAULT" : "text-secondary group-hover:text-primary-DEFAULT")}>Mind</div>
-                    <div className="text-xs text-secondary font-medium">Calm & clear</div>
+                    <div className={cn("font-medium text-base transition-colors", mode === 'mind' ? "text-primary-DEFAULT" : "text-secondary group-hover:text-primary-DEFAULT")}>Mind</div>
+                    <div className="text-[13px] text-slate-500 font-normal mt-0.5">Calm & clear</div>
                   </div>
                 </button>
 
@@ -252,14 +251,14 @@ function App() {
                     <ActivityIcon className="w-6 h-6" strokeWidth={2} />
                   </div>
                   <div>
-                    <div className={cn("font-bold transition-colors", mode === 'move' ? "text-primary-DEFAULT" : "text-secondary group-hover:text-primary-DEFAULT")}>Move</div>
-                    <div className="text-xs text-secondary font-medium">Body & energy</div>
+                    <div className={cn("font-medium text-base transition-colors", mode === 'move' ? "text-primary-DEFAULT" : "text-secondary group-hover:text-primary-DEFAULT")}>Move</div>
+                    <div className="text-[13px] text-slate-500 font-normal mt-0.5">Body & energy</div>
                   </div>
                 </button>
               </div>
             </div>
 
-            <Button size="lg" fullWidth onClick={handleGetActivity} className="shadow-lg shadow-primary-accent/20 mt-4 text-lg">
+            <Button size="lg" fullWidth onClick={handleGetActivity} className="shadow-lg shadow-primary-accent/20 mt-4 mb-8 text-base font-semibold tracking-wide">
               Let's do it!
             </Button>
           </div>
@@ -282,26 +281,41 @@ function App() {
 
             userNote={undefined} // Note is never shared/saved now
             selectedTime={minutes}
+            selectedMood={mood}
           />
         </div>
       )}
 
+      <div className="fixed bottom-5 left-5 z-50 pointer-events-none animate-fade-in">
+        <div className="px-3 py-1.5 rounded-full bg-white/70 border border-slate-50 shadow-[0_1px_3px_rgba(0,0,0,0.04)] backdrop-blur-[2px] text-slate-500/75 font-serif font-medium text-[13px]">
+          Lo’s Workspace
+        </div>
+      </div>
+
       {step === 'completion' && (
-        <div className="flex flex-col items-center justify-center text-center gap-8 animate-slide-up py-10">
-          <div className="space-y-4 animate-fade-in group">
-            <div className="text-6xl mb-4 transform transition-transform group-hover:scale-110 duration-300">🎉</div>
-            <h2 className="text-3xl font-bold text-primary-DEFAULT tracking-tight">Well done!</h2>
-            <p className="text-secondary text-lg">You took a moment for yourself.</p>
+        <div className="flex flex-col items-center justify-center text-center animate-slide-up py-10 relative isolate">
+          {/* Radial Overlay for 'Clean Center' */}
+          <div className="absolute inset-0 bg-[radial-gradient(closest-side,rgba(255,255,255,0.92),rgba(255,255,255,0))] z-[-1] pointer-events-none" />
+
+          <div className="space-y-6 animate-fade-in flex flex-col items-center max-w-xs mx-auto">
+            {/* Premium Check Icon (Refined: Gradient fill + Soft Shadow) */}
+            <div className="w-16 h-16 rounded-full bg-gradient-to-b from-white to-teal-50/50 border border-teal-100 flex items-center justify-center shadow-[0_2px_8px_-1px_rgba(20,184,166,0.1)] mb-2">
+              <Check className="w-7 h-7 text-teal-600" strokeWidth={2.5} absoluteStrokeWidth />
+            </div>
+
+            <div className="space-y-3">
+              <h2 className="text-2xl font-semibold text-primary-DEFAULT tracking-wide">Well done!</h2>
+              <p className="text-secondary/80 text-base leading-relaxed font-normal">You took a moment for yourself.</p>
+            </div>
           </div>
 
-
-
-          <div className="w-full space-y-3">
-            <Button size="lg" fullWidth onClick={handleReset}>
-              Start New Check-in
+          <div className="w-full space-y-4 max-w-[280px] mt-14"> {/* Increased top margin (+8px) */}
+            <Button size="lg" fullWidth onClick={handleReset} className="shadow-lg shadow-teal-900/5 hover:shadow-teal-900/10">
+              Check in again
             </Button>
-            <p className="text-xs text-gray-400">
-              Great job showing up for yourself.
+            {/* Increased contrast for readability */}
+            <p className="text-xs text-slate-400 font-medium tracking-wide">
+              One tiny step matters.
             </p>
           </div>
         </div>
