@@ -60,11 +60,16 @@ export function ActivityCard({ activity, onComplete, onReroll, rerollsLeft, user
         setIsSharing(true);
 
         try {
-            // Temporarily remove overflow-hidden to capture full card including brush/glow effects
-            const originalOverflow = cardRef.current.style.overflow;
-            cardRef.current.style.overflow = 'visible';
+            // Temporarily remove overflow-hidden CLASS (not just style) to capture full card
+            const cardElement = cardRef.current;
+            const hadOverflowHidden = cardElement.classList.contains('overflow-hidden');
 
-            // Wait longer for the DOM to update (especially important on mobile)
+            if (hadOverflowHidden) {
+                cardElement.classList.remove('overflow-hidden');
+                cardElement.classList.add('overflow-visible');
+            }
+
+            // Wait for the DOM to update (especially important on mobile)
             await new Promise(resolve => setTimeout(resolve, 300));
 
             const dataUrl = await toPng(cardRef.current, {
@@ -77,8 +82,11 @@ export function ActivityCard({ activity, onComplete, onReroll, rerollsLeft, user
                 }
             });
 
-            // Restore original overflow
-            cardRef.current.style.overflow = originalOverflow;
+            // Restore original overflow class
+            if (hadOverflowHidden) {
+                cardElement.classList.remove('overflow-visible');
+                cardElement.classList.add('overflow-hidden');
+            }
 
             // Check for Web Share API
             if (navigator.share) {
