@@ -64,7 +64,13 @@ export function ActivityCard({ activity, onComplete, onReroll, rerollsLeft, user
             // Ideally we would clone the node or have a hidden 'share view', but for MVP
             // let's just capture the current card.
 
-            const dataUrl = await toPng(cardRef.current, { cacheBust: true, backgroundColor: 'transparent' });
+            const dataUrl = await toPng(cardRef.current, {
+                cacheBust: true,
+                backgroundColor: '#ffffff',
+                pixelRatio: 2,
+                width: cardRef.current.offsetWidth,
+                height: cardRef.current.offsetHeight
+            });
 
             // Check for Web Share API
             if (navigator.share) {
