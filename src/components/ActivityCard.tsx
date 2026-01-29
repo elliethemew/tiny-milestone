@@ -60,17 +60,21 @@ export function ActivityCard({ activity, onComplete, onReroll, rerollsLeft, user
         setIsSharing(true);
 
         try {
-            // Temporarily show watermark for capture if needed, or structured differently
-            // Ideally we would clone the node or have a hidden 'share view', but for MVP
-            // let's just capture the current card.
+            // Temporarily remove overflow-hidden to capture full card including brush/glow effects
+            const originalOverflow = cardRef.current.style.overflow;
+            cardRef.current.style.overflow = 'visible';
+
+            // Wait a tick for the DOM to update
+            await new Promise(resolve => setTimeout(resolve, 100));
 
             const dataUrl = await toPng(cardRef.current, {
                 cacheBust: true,
                 backgroundColor: '#ffffff',
-                pixelRatio: 2,
-                width: cardRef.current.offsetWidth,
-                height: cardRef.current.offsetHeight
+                pixelRatio: 2
             });
+
+            // Restore original overflow
+            cardRef.current.style.overflow = originalOverflow;
 
             // Check for Web Share API
             if (navigator.share) {
