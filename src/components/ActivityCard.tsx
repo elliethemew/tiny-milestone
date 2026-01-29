@@ -70,14 +70,14 @@ export function ActivityCard({ activity, onComplete, onReroll, rerollsLeft, user
                     onClick={onReroll}
                     disabled={rerollsLeft === 0}
                     className={cn(
-                        "absolute top-4 right-4 p-2 transition-colors z-20 rounded-full",
+                        "absolute top-3 right-3 p-3 transition-colors z-20 rounded-full", /* Larger tap area 44px+ approx */
                         rerollsLeft > 0
                             ? "text-gray-300 hover:text-gray-500 hover:bg-gray-50 cursor-pointer"
                             : "text-gray-200 cursor-not-allowed opacity-50"
                     )}
                     title={rerollsLeft > 0 ? "Try another" : "No more swaps"}
                 >
-                    <RefreshCcw className="w-4 h-4" />
+                    <RefreshCcw className="w-5 h-5" />
                 </button>
 
                 <div className="z-10 flex flex-col items-center gap-2">
@@ -111,7 +111,7 @@ export function ActivityCard({ activity, onComplete, onReroll, rerollsLeft, user
             <div className="w-full flex justify-center">
                 <Button variant="outline" onClick={handleShare} disabled={isSharing} className="flex gap-2 w-full justify-center">
                     {isSharing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Share2 className="w-4 h-4" />}
-                    Do with a friend?
+                    Share card
                 </Button>
             </div>
 

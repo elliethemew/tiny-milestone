@@ -8,7 +8,7 @@ import { useActivitySuggestion } from './hooks/useActivitySuggestion';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import type { Mood, Activity } from './types';
 import { triggerConfetti } from './lib/confetti';
-import { ArrowLeft, Clock, Brain, Activity as ActivityIcon, MessageSquare, Settings, Trash2, X } from 'lucide-react';
+import { ArrowLeft, Clock, Brain, Activity as ActivityIcon, MessageSquare, Settings, Trash2, X, Check } from 'lucide-react';
 import { cn } from './lib/utils';
 
 type Step = 'mood' | 'options' | 'result' | 'completion';
@@ -141,7 +141,7 @@ function App() {
             <h2 className="text-2xl font-bold text-gray-900">How are you feeling?</h2>
             <p className="text-gray-500">Let's find a tiny step forward.</p>
           </div>
-          <MoodSelector onSelect={handleMoodSelect} />
+          <MoodSelector onSelect={handleMoodSelect} selectedMood={mood} />
         </div>
       )}
 
@@ -156,8 +156,8 @@ function App() {
 
           <div className="space-y-6">
             <div className="space-y-3">
-              <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                <MessageSquare className="w-4 h-4" /> What's on your mind? (Optional)
+              <label className="text-sm font-medium text-primary-DEFAULT flex items-center gap-2">
+                <MessageSquare className="w-4 h-4 text-primary-accent" /> What's on your mind? (Optional)
               </label>
               <textarea
                 value={note}
@@ -168,29 +168,29 @@ function App() {
                       mood === 'surprise' ? "You think you can surprise me?" :
                         "I'm feeling a bit stuck because..."
                 }
-                className="w-full p-4 rounded-2xl border border-gray-200 focus:border-primary-accent focus:ring-1 focus:ring-primary-accent outline-none min-h-[100px] resize-none text-sm"
+                className="w-full p-6 rounded-3xl bg-white border-none shadow-sm focus:ring-2 focus:ring-primary-accent/20 outline-none min-h-[120px] resize-none text-base placeholder:text-muted/60 transition-all font-sans"
               />
               <div className="flex items-start gap-2 px-1">
-                <p className="text-xs text-gray-400 italic">
+                <p className="text-xs text-muted italic">
                   Practice naming your feelings. Whatever you write here disappears when you start. It is not saved anywhere.
                 </p>
               </div>
             </div>
 
             <div className="space-y-3">
-              <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                <Clock className="w-4 h-4" /> How much time do you have?
+              <label className="text-sm font-medium text-primary-DEFAULT flex items-center gap-2">
+                <Clock className="w-4 h-4 text-primary-accent" /> How much time do you have?
               </label>
-              <div className="grid grid-cols-4 gap-2">
+              <div className="grid grid-cols-4 gap-3">
                 {[5, 10, 30, 60].map((m) => (
                   <button
                     key={m}
                     onClick={() => setMinutes(m)}
                     className={cn(
-                      "py-2 px-3 rounded-xl text-sm font-medium transition-all",
+                      "py-3 px-2 rounded-2xl text-sm font-semibold transition-all border",
                       minutes === m
-                        ? "bg-primary-accent text-white shadow-sm ring-2 ring-primary-accent ring-offset-2"
-                        : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"
+                        ? "border-primary-accent bg-background text-primary-accent shadow-sm ring-1 ring-primary-accent/10"
+                        : "border-border bg-white text-secondary hover:border-primary-accent/30 hover:bg-slate-50"
                     )}
                   >
                     {m}m
@@ -200,49 +200,69 @@ function App() {
             </div>
 
             <div className="space-y-3">
-              <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                <Brain className="w-4 h-4" /> What kind of reset?
+              <label className="text-sm font-medium text-primary-DEFAULT flex items-center gap-2">
+                <Brain className="w-4 h-4 text-primary-accent" /> What kind of reset?
               </label>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-4">
                 <button
                   onClick={() => setMode('mind')}
                   className={cn(
-                    "p-4 rounded-2xl border text-left transition-all flex items-center gap-3",
+                    "p-5 rounded-[24px] border text-left transition-all flex items-center gap-4 relative group",
+                    // Micro-interactions
+                    "hover:-translate-y-1 hover:shadow-md active:scale-[0.98]",
                     mode === 'mind'
-                      ? "border-primary-accent bg-blue-50/50 ring-1 ring-primary-accent"
-                      : "border-gray-200 bg-white hover:bg-gray-50"
+                      ? "border-blue-400 bg-white shadow-md ring-4 ring-blue-100" // Selected: Blue theme
+                      : "border-border bg-white hover:border-blue-300 hover:bg-blue-50" // Default: Hover Blue tint
                   )}
                 >
-                  <div className={cn("p-2 rounded-full", mode === 'mind' ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-500")}>
-                    <Brain className="w-5 h-5" />
+                  {mode === 'mind' && (
+                    <div className="absolute top-4 right-4 w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center text-white animate-fade-in shadow-sm">
+                      <Check className="w-3 h-3" strokeWidth={3} />
+                    </div>
+                  )}
+                  <div className={cn(
+                    "p-3 rounded-full transition-colors duration-300",
+                    mode === 'mind' ? "bg-blue-100 text-blue-600" : "bg-slate-100 text-slate-400 group-hover:bg-blue-100 group-hover:text-blue-500"
+                  )}>
+                    <Brain className="w-6 h-6" strokeWidth={2} />
                   </div>
                   <div>
-                    <div className="font-medium text-sm">Mind</div>
-                    <div className="text-xs text-gray-500">Calm & clear</div>
+                    <div className={cn("font-bold transition-colors", mode === 'mind' ? "text-primary-DEFAULT" : "text-secondary group-hover:text-primary-DEFAULT")}>Mind</div>
+                    <div className="text-xs text-secondary font-medium">Calm & clear</div>
                   </div>
                 </button>
 
                 <button
                   onClick={() => setMode('move')}
                   className={cn(
-                    "p-4 rounded-2xl border text-left transition-all flex items-center gap-3",
+                    "p-5 rounded-[24px] border text-left transition-all flex items-center gap-4 relative group",
+                    // Micro-interactions
+                    "hover:-translate-y-1 hover:shadow-md active:scale-[0.98]",
                     mode === 'move'
-                      ? "border-primary-accent bg-green-50/50 ring-1 ring-primary-accent"
-                      : "border-gray-200 bg-white hover:bg-gray-50"
+                      ? "border-emerald-400 bg-white shadow-md ring-4 ring-emerald-100" // Selected: Green theme
+                      : "border-border bg-white hover:border-emerald-300 hover:bg-emerald-50" // Default: Hover Green tint
                   )}
                 >
-                  <div className={cn("p-2 rounded-full", mode === 'move' ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500")}>
-                    <ActivityIcon className="w-5 h-5" />
+                  {mode === 'move' && (
+                    <div className="absolute top-4 right-4 w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center text-white animate-fade-in shadow-sm">
+                      <Check className="w-3 h-3" strokeWidth={3} />
+                    </div>
+                  )}
+                  <div className={cn(
+                    "p-3 rounded-full transition-colors duration-300",
+                    mode === 'move' ? "bg-emerald-100 text-emerald-600" : "bg-slate-100 text-slate-400 group-hover:bg-emerald-100 group-hover:text-emerald-500"
+                  )}>
+                    <ActivityIcon className="w-6 h-6" strokeWidth={2} />
                   </div>
                   <div>
-                    <div className="font-medium text-sm">Move</div>
-                    <div className="text-xs text-gray-500">Body & energy</div>
+                    <div className={cn("font-bold transition-colors", mode === 'move' ? "text-primary-DEFAULT" : "text-secondary group-hover:text-primary-DEFAULT")}>Move</div>
+                    <div className="text-xs text-secondary font-medium">Body & energy</div>
                   </div>
                 </button>
               </div>
             </div>
 
-            <Button size="lg" fullWidth onClick={handleGetActivity}>
+            <Button size="lg" fullWidth onClick={handleGetActivity} className="shadow-lg shadow-primary-accent/20 mt-4 text-lg">
               Let's do it!
             </Button>
           </div>
@@ -271,10 +291,10 @@ function App() {
 
       {step === 'completion' && (
         <div className="flex flex-col items-center justify-center text-center gap-8 animate-slide-up py-10">
-          <div className="space-y-2">
-            <div className="text-6xl mb-4">🎉</div>
-            <h2 className="text-3xl font-bold text-gray-900">Well done!</h2>
-            <p className="text-gray-600">You took a moment for yourself.</p>
+          <div className="space-y-4 animate-fade-in group">
+            <div className="text-6xl mb-4 transform transition-transform group-hover:scale-110 duration-300">🎉</div>
+            <h2 className="text-3xl font-bold text-primary-DEFAULT tracking-tight">Well done!</h2>
+            <p className="text-secondary text-lg">You took a moment for yourself.</p>
           </div>
 
 

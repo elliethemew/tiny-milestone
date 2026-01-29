@@ -14,10 +14,10 @@ const buttonVariants = cva(
                 outline: "border border-input hover:bg-accent hover:text-accent-foreground",
             },
             size: {
-                default: "h-12 px-6 py-3",
-                sm: "h-9 px-3 rounded-xl",
-                lg: "h-14 px-8 text-base rounded-3xl",
-                icon: "h-10 w-10",
+                default: "h-12 px-6 py-3 rounded-2xl",
+                sm: "h-10 px-4 rounded-xl",
+                lg: "h-14 px-8 text-base rounded-[24px]", // Approx 24px
+                icon: "h-11 w-11 rounded-full", // 44px+ touch target
             },
             fullWidth: {
                 true: "w-full",
