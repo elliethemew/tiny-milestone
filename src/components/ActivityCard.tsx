@@ -5,6 +5,7 @@ import { Button } from './ui/Button';
 import { Card } from './ui/Card';
 import { Share2, Check, Loader2, RefreshCcw } from 'lucide-react';
 import { cn } from '../lib/utils'; // Keep this import, it is used below!
+import brushImage from '../assets/brush.png';
 
 interface ActivityCardProps {
     activity: Activity;
@@ -111,7 +112,7 @@ export function ActivityCard({ activity, onComplete, onReroll, rerollsLeft, user
                                 brushColor
                             )}
                             style={{
-                                backgroundImage: "url('/brush.png')",
+                                backgroundImage: `url(${brushImage})`,
                                 backgroundSize: "100% 100%",
                                 backgroundRepeat: "no-repeat",
                                 // transform: "scaleX(-1)" // Removed flip for left side natural orientation
