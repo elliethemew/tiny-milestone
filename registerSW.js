@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/tiny-milestone/sw.js', { scope: '/tiny-milestone/' })})}
